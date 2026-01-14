@@ -1,0 +1,23 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: simple-mongoose-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=simple-mongoose
+    volumes:
+      - mongo-data:/data/db
+  
+  app:
+    build: .
+    container_name: simple-mongoose
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
