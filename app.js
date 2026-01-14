@@ -35,7 +35,7 @@ app.post('/api/messages', async (req, res) => {
 // Route to get all messages
 app.get('/api/messages', async (req, res) => {
     try {
-        const messages = await Message.find().sort({ createdAt: -1 });
+        const messages = await Message.find().sort({ createdAt: 1 });
         res.status(200).json(Array.isArray(messages) ? messages : []);
     } catch (err) {
         res.status(200).json([]);
