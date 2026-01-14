@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simple Mongoose App</title>
+  </head>
+  <body>
+    <h1>Messages</h1>
+
+    <!-- Text area and submit to create new messages -->
+    <textarea id="newMessageText" rows="4" cols="50" placeholder="Enter your message here..."></textarea>
+    <button id="submitMessage">Submit</button>
+    <script>
+      document
+        .getElementById("submitMessage")
+        .addEventListener("click", () => {
+          const text = document.getElementById("newMessageText").value;
+          fetch("/api/messages", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              const ul = document.getElementById("messages");
+              const li = document.createElement("li");
+              li.textContent = data.text;
+              ul.appendChild(li);
+              document.getElementById("newMessageText").value = "";
+            });
+        });
+    </script>
+
+        <ul id="messages"></ul>
+
+    <script>
+      fetch("/api/messages")
+        .then((res) => res.json())
+        .then((data) => {
+          const ul = document.getElementById("messages");
+          data.forEach((msg) => {
+            const li = document.createElement("li");
+            li.textContent = msg.text;
+            ul.appendChild(li);
+          });
+        });
+    </script>
+  </body>
+</html>
